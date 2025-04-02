@@ -14,8 +14,8 @@ public class Pica {
 		this.size=size;
 	}
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Pica menu");
-        frame.setSize(300, 200);
+		JFrame frame = new JFrame("Ummmm Pica");
+        frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout());
         
@@ -25,12 +25,31 @@ public class Pica {
         klientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	JFrame Kframe = new JFrame("Pieņem klientu");
+            	Kframe.setSize(600,400);
+            	Kframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                Kframe.setLayout(new FlowLayout());
+                
+                Kframe.setVisible(true);
+                frame.setVisible(false);
             }
         });
         
         picaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	JFrame Pframe = new JFrame("Pica");
+            	Pframe.setSize(600,400);
+            	Pframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                Pframe.setLayout(new FlowLayout());
+                JButton klientGaumeButton = new JButton("Taisīt originālu picu");
+                JButton gatavaButton = new JButton("Izvēlēties picas recepti");
+                
+                Pframe.add(klientGaumeButton);
+                Pframe.add(gatavaButton);
+                
+                Pframe.setVisible(true);
+                frame.setVisible(false);
             }
         });
         
