@@ -2,8 +2,10 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Pica {
 	String toping,style;
@@ -26,10 +28,14 @@ public class Pica {
             @Override
             public void actionPerformed(ActionEvent e) {
             	JFrame Kframe = new JFrame("Pieņem klientu");
-            	Kframe.setSize(600,400);
+            	Kframe.setSize(600,500);
             	Kframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 Kframe.setLayout(new FlowLayout());
-                
+                ImageIcon icon = new ImageIcon (new ImageIcon("atteli/backPica.png").getImage().getScaledInstance(600, 500, java.awt.Image.SCALE_SMOOTH));
+                JLabel label = new JLabel(icon);
+                Kframe.add(label);
+
+
                 Kframe.setVisible(true);
                 frame.setVisible(false);
             }
