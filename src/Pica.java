@@ -83,7 +83,18 @@ public class Pica {
                 Pframe.setSize(600, 400);
                 Pframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 Pframe.setLayout(new FlowLayout());
-
+                
+                JButton backButton = new JButton("Back");
+                backButton.setBounds(500, 20, 80, 30);
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.setVisible(true);
+                        Pframe.setVisible(false);
+                    }
+                });
+                
+                Pframe.add(backButton);
                 JButton klientGaumeButton = new JButton("Taisīt originālu picu");
                 JButton gatavaButton = new JButton("Izvēlēties picas recepti");
 
