@@ -14,6 +14,12 @@ public class Klients {
 	public void ZvanitTelefonu() {
 		
 	}
+	public void pickupTele() {
+		
+	}
+	public void playSound() {
+		
+	}
 	public String getVeid() {
 		return veids;
 	}
