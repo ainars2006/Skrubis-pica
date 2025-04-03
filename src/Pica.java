@@ -2,14 +2,22 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
+import java.util.Timer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JTextArea;
 
 public class Pica {
+	private static JTextArea orderTextArea;
+    private static Random rand = new Random();
+    private static String[] styles = {"Biezā", "Plānā"};
+    private static String[] toppings = {"Pepperoni", "Sēnes", "Sīpoli", "Bekons", "Olīvas"};
+    private static int[] sizes = {30, 50, 20, 42};
     String toping, style;
     int size;
 
@@ -110,5 +118,14 @@ public class Pica {
         frame.add(picaButton);
 
         frame.setVisible(true);
+    }
+    private static void RandomPasutijums() {
+        String type = rand.nextBoolean() ? "Originalu" : "No receptes";
+        String style = styles[rand.nextInt(styles.length)];
+        String topping = toppings[rand.nextInt(toppings.length)];
+        int size = sizes[rand.nextInt(sizes.length)];
+
+        Klients klient = new Klients(type, style, topping, size);
+        orderTextArea.append("Jauns pasūtijums: " + klient.getVeid() + " - " + klient.getStyle() + " ar " + klient.getToping() + ", \nIzmērs: " + klient.getSize() + "\n");
     }
 }
