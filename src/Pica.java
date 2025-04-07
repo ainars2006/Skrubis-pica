@@ -1,15 +1,26 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
-import javax.swing.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
 public class Pica {
-    private static JTextArea orderTextArea;
     private static Random rand = new Random();
     private static String[] styles = {"Biezā", "Plānā"};
     private static String[] toppings = {"Pepperoni", "Sēnes", "Sīpoli", "Bekons", "Olīvas"};
@@ -18,7 +29,7 @@ public class Pica {
 
     private static String currentClientOrder = "";
     private static boolean isClientSelected = false;
-    private static boolean isOrderComplete = false;
+    private static boolean isOrderComplete = true;
 
     private static String selectedClientImage = null;
     private static JLabel clientLabel = null;  
@@ -52,14 +63,15 @@ public class Pica {
                 Kframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 Kframe.setLayout(null);
 
-                if (selectedClientImage == null) {
-                    selectedClientImage = klients[rand.nextInt(klients.length)];
-                }
-
-                ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
-                        .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-                clientLabel = new JLabel(clientIcon);
+                clientLabel = new JLabel();
                 clientLabel.setBounds(220, 213, 150, 150); 
+
+                // Restore previously selected client image if available
+                if (selectedClientImage != null) {
+                    ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
+                            .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+                    clientLabel.setIcon(clientIcon);
+                }
 
                 orderDetails = new JTextArea(5, 30);
                 orderDetails.setBounds(150, 375, 300, 100);
@@ -72,13 +84,20 @@ public class Pica {
                 clientLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (!isClientSelected && !isOrderComplete) {
+                        if (!isClientSelected && isOrderComplete) {
+                            selectedClientImage = klients[rand.nextInt(klients.length)];
+                            ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
+                                    .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+                            clientLabel.setIcon(clientIcon);
+
                             String style = styles[rand.nextInt(styles.length)];
                             String topping = toppings[rand.nextInt(toppings.length)];
                             int size = sizes[rand.nextInt(sizes.length)];
                             currentClientOrder = "Jauns pasūtījums:\n" + style + " ar " + topping + "\nIzmērs: " + size;
+
                             orderDetails.setText(currentClientOrder);
                             isClientSelected = true;
+                            isOrderComplete = false;
                         }
                     }
                 });
@@ -160,15 +179,83 @@ public class Pica {
                 Pframe.add(backButton);
                 JButton klientGaumeButton = new JButton("Taisīt originālu picu");
                 JButton gatavaButton = new JButton("Izvēlēties picas recepti");
-
+                
+                klientGaumeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    	createCustomPizzaFrame();
+                    }
+                });
                 Pframe.add(klientGaumeButton);
                 Pframe.add(gatavaButton);
 
                 Pframe.setVisible(true);
                 frame.setVisible(false);
             }
+            private static void createCustomPizzaFrame() {
+                JFrame customPizzaFrame = new JFrame("Izveido savu picu");
+                customPizzaFrame.setSize(400, 300);
+                customPizzaFrame.setLayout(new GridLayout(5, 2));
+
+                JLabel styleLabel = new JLabel("Izvēlies mīklas veidu:");
+                JComboBox<String> styleBox = new JComboBox<>(styles);
+
+                JLabel toppingLabel = new JLabel("Izvēlies piedevas:");
+                JList<String> toppingList = new JList<>(toppings);
+                toppingList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+                JLabel sizeLabel = new JLabel("Izvēlies izmēru:");
+                JComboBox<Integer> sizeBox = new JComboBox<>(new Integer[]{20, 30, 42, 50});
+
+                JButton confirmButton = new JButton("Apstiprināt");
+                JTextArea orderSummary = new JTextArea(5, 30);
+                orderSummary.setEditable(false);
+
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (!isClientSelected) {
+                            orderSummary.setText("Nav neviena klienta!");
+                            return;
+                        }
+
+                        String selectedStyle = (String) styleBox.getSelectedItem();
+                        java.util.List<String> selectedToppings = toppingList.getSelectedValuesList();
+                        int selectedSize = (int) sizeBox.getSelectedItem();
+
+                        StringBuilder orderText = new StringBuilder("Tava pasūtītā pica:\n");
+                        orderText.append("Mīklas veids: ").append(selectedStyle).append("\n");
+                        orderText.append("Piedevas: ").append(String.join(", ", selectedToppings)).append("\n");
+                        orderText.append("Izmērs: ").append(selectedSize).append(" cm");
+
+                        currentClientOrder = orderText.toString();
+                        orderDetails.setText(currentClientOrder + "\n\nPasūtījums pabeigts!");
+
+                        isOrderComplete = true;
+                        isClientSelected = false;
+                        selectedClientImage = null;
+                        clientLabel.setIcon(null);
+
+                        customPizzaFrame.dispose();
+                    }
+                });
+
+                customPizzaFrame.add(styleLabel);
+                customPizzaFrame.add(styleBox);
+                customPizzaFrame.add(toppingLabel);
+                customPizzaFrame.add(new JScrollPane(toppingList));
+                customPizzaFrame.add(sizeLabel);
+                customPizzaFrame.add(sizeBox);
+                customPizzaFrame.add(confirmButton);
+                customPizzaFrame.add(new JScrollPane(orderSummary));
+
+                customPizzaFrame.setVisible(true);
+            }
+        
+
         });
 
         frame.setVisible(true);
+        
     }
 }
