@@ -66,7 +66,6 @@ public class Pica {
                 clientLabel = new JLabel();
                 clientLabel.setBounds(220, 213, 150, 150); 
 
-                // Restore previously selected client image if available
                 if (selectedClientImage != null) {
                     ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
                             .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
