@@ -15,7 +15,6 @@ public class Pica {
     };
 
     private static Klients currentClient = null;
-    private static boolean isClientVisible = false;
     private static boolean isOrderComplete = true;
     private static String selectedClientImage = null;
 
@@ -106,7 +105,6 @@ public class Pica {
                                 "Klients pasūta:\n" +
                                 style + " ar " + topping + "\nIzmērs: " + size + " cm");
                         clientLabel.setIcon(null);
-                        isClientVisible = false;
                         isOrderComplete = false;
                     }
                 }
@@ -125,7 +123,6 @@ public class Pica {
                         clientLabel.setIcon(clientIcon);
                         orderDetails.setText("🧍 Klients ienāca un saka:\n" +
                                 style + " ar " + topping + "\nIzmērs: " + size + " cm");
-                        isClientVisible = true;
                         isOrderComplete = false;
                     }
                 }
@@ -195,7 +192,6 @@ public class Pica {
     private static void resetClient() {
         currentClient = null;
         isOrderComplete = true;
-        isClientVisible = false;
         if (clientLabel != null) clientLabel.setIcon(null);
         if (orderDetails != null) orderDetails.setText("");
     }
