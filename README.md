@@ -1,4 +1,4 @@
-### Programma par picu
+# Programma par picu
 ## Apraksts
 Programma ir par picas veikalu kur var saņemt klientus un idot viņiem picu.
 ## Veicamo darbu saraksts
