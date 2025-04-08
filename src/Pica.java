@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Random;
 import javax.swing.*;
+import java.util.Random;
 
 public class Pica {
     private static Random rand = new Random();
@@ -44,12 +44,8 @@ public class Pica {
         imagePanel.add(picaLabel);
         frame.add(imagePanel, BorderLayout.CENTER);
 
-        klientButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openClientFrame();
-            }
-        });
+        klientButton.addActionListener(e -> openClientFrame());
+        picaButton.addActionListener(e -> openPizzaMaker());
 
         frame.setVisible(true);
     }
@@ -96,12 +92,10 @@ public class Pica {
             backButton.addActionListener(e -> {
                 frame.setVisible(true);
                 Kframe.setVisible(false);
-                resetClient();
             });
             layeredPane.add(backButton, JLayeredPane.MODAL_LAYER);
 
             phoneLabel.addMouseListener(new MouseAdapter() {
-                @Override
                 public void mouseClicked(MouseEvent e) {
                     if (isOrderComplete) {
                         String style = styles[rand.nextInt(styles.length)];
@@ -119,7 +113,6 @@ public class Pica {
             });
 
             backgroundLabel.addMouseListener(new MouseAdapter() {
-                @Override
                 public void mouseClicked(MouseEvent e) {
                     if (isOrderComplete) {
                         String style = styles[rand.nextInt(styles.length)];
@@ -145,11 +138,65 @@ public class Pica {
         frame.setVisible(false);
     }
 
+    private static void openPizzaMaker() {
+        if (currentClient != null && !isOrderComplete) {
+            JFrame pizzaFrame = new JFrame("Taisīt picu");
+            pizzaFrame.setSize(600, 400);
+            pizzaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            pizzaFrame.setLayout(new FlowLayout());
+
+            JLabel pizzaOrderLabel = new JLabel("Klienta pasūtījums: " +
+                    currentClient.getStyle() + " ar " +
+                    currentClient.getToping() + ", Izmērs: " +
+                    currentClient.getSize() + " cm\n");
+            pizzaFrame.add(pizzaOrderLabel);
+
+            JComboBox<String> styleComboBox = new JComboBox<>(styles);
+            styleComboBox.setSelectedItem(currentClient.getStyle());
+            pizzaFrame.add(new JLabel("\nIzvēlieties stilu:"));
+            pizzaFrame.add(styleComboBox);
+
+            JComboBox<String> toppingComboBox = new JComboBox<>(toppings);
+            toppingComboBox.setSelectedItem(currentClient.getToping());
+            pizzaFrame.add(new JLabel("Izvēlieties piedevas:"));
+            pizzaFrame.add(toppingComboBox);
+
+            JComboBox<Integer> sizeComboBox = new JComboBox<>();
+            for (int size : sizes) {
+                sizeComboBox.addItem(size);
+            }
+            sizeComboBox.setSelectedItem(currentClient.getSize());
+            pizzaFrame.add(new JLabel("Izvēlieties izmēru:"));
+            pizzaFrame.add(sizeComboBox);
+
+            JButton makePizzaButton = new JButton("Taisīt picu");
+            makePizzaButton.addActionListener(e -> {
+                String style = (String) styleComboBox.getSelectedItem();
+                String topping = (String) toppingComboBox.getSelectedItem();
+                int size = (Integer) sizeComboBox.getSelectedItem();
+
+                currentClient = new Klients("Custom", style, topping, size);
+                JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
+                        style + " ar " + topping + ", Izmērs: " + size + " cm.");
+                isOrderComplete = true;
+                resetClient();
+                pizzaFrame.dispose();
+                frame.setVisible(true);
+                if (Kframe != null) {
+                    Kframe.setVisible(false);
+                }
+            });
+            pizzaFrame.add(makePizzaButton);
+
+            pizzaFrame.setVisible(true);
+        }
+    }
+
     private static void resetClient() {
         currentClient = null;
         isOrderComplete = true;
         isClientVisible = false;
-        clientLabel.setIcon(null);
-        orderDetails.setText("");
+        if (clientLabel != null) clientLabel.setIcon(null);
+        if (orderDetails != null) orderDetails.setText("");
     }
 }
