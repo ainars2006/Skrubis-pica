@@ -7,4 +7,7 @@ Programma ir par picas veikalu kur var saņemt klientus un iedot viņiem picu.
 - [x] Ir vairāki klienti<br>
 - [x] Ir telefons par kuru uzņem klientus<br>
 - [x] Ir bildes<br>
+- [x] Sglabā un lasa failu
+- [ ] Ir skaņas
+- [x] Krāsains
 ![picas bilde](https://media.istockphoto.com/id/901501348/vector/slice-of-melted-cheese-pepperoni-pizza.jpg?s=612x612&w=0&k=20&c=0cIsVfLHiabGD1NGDZEfE1hIBmD5DQuzNuLK8Owvyo8=)
