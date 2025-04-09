@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class Pica {
@@ -74,17 +75,28 @@ public class Pica {
     }
     private static void read() {
     	try {
-    		FileReader fr = new FileReader("pasutijumi.txt");
-    		BufferedReader br = new BufferedReader(fr);
-    		String nolasitais="",teksts;
-    		while((teksts=br.readLine()) !=null) {
-    			nolasitais += teksts+"\n";
-    		}
-    		br.close();
-    		JOptionPane.showMessageDialog(null, nolasitais);
-    		}catch(IOException e) {
-    			
-    		}
+            FileReader fr = new FileReader("pasutijumi.txt");
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder nolasitais = new StringBuilder();
+            String teksts;
+            while ((teksts = br.readLine()) != null) {
+                nolasitais.append(teksts).append("\n");
+            }
+            br.close();
+
+            JTextArea textArea = new JTextArea(nolasitais.toString(), 15, 40);
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            textArea.setEditable(false);
+            textArea.setBackground(Color.YELLOW);
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            JOptionPane.showMessageDialog(null, scrollPane, "Saglabātie pasūtījumi", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Neizdevās nolasīt failu.");
+        }
     }
     private static void openClientFrame() {
         if (Kframe == null) {

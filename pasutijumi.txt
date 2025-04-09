@@ -8,3 +8,13 @@ Stils: Biezā
 Piedevas: Sēnes
 Izmērs: 30 cm
 ===========
+Pasūtījums:
+Stils: Biezā
+Piedevas: Sīpoli
+Izmērs: 20 cm
+===========
+Pasūtījums:
+Stils: Plānā
+Piedevas: Bekons
+Izmērs: 30 cm
+===========
