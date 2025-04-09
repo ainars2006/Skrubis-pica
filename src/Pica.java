@@ -175,6 +175,10 @@ public class Pica {
                 currentClient = new Klients("Custom", style, topping, size);
                 JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
                         style + " ar " + topping + ", Izmērs: " + size + " cm.");
+                if(style!=currentClient.getStyle() && topping!=currentClient.getToping()&&size!=currentClient.getSize())
+                	JOptionPane.showMessageDialog(null,"Tu uztaisiji nepareizu picu dēļ tā klients aizmuka/nolika klausui");
+                else
+                	JOptionPane.showMessageDialog(null,"Klients: Ummm paldies par picu");
                 isOrderComplete = true;
                 resetClient();
                 pizzaFrame.dispose();
