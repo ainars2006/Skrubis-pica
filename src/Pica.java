@@ -1,8 +1,11 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,23 +50,42 @@ public class Pica {
         JPanel buttonPanel = new JPanel();
         JButton klientButton = new JButton("Pieņemt klientu");
         JButton picaButton = new JButton("Taisīt picu");
+        JButton cekuVesture = new JButton("Čeku vēsture");
+        picaButton.setBackground(Color.YELLOW);
+        klientButton.setBackground(Color.YELLOW);
+        cekuVesture.setBackground(Color.YELLOW);
         buttonPanel.add(klientButton);
+        buttonPanel.add(cekuVesture);
         buttonPanel.add(picaButton);
+        buttonPanel.setBackground(Color.RED);
         frame.add(buttonPanel, BorderLayout.NORTH);
-
+        frame.getContentPane().setBackground(Color.YELLOW);
         ImageIcon pica = new ImageIcon(new ImageIcon("atteli/a-cheesy-delicious-pizza-with-tasty-pepperoni-on-a-transparent-background-png.png")
                 .getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH));
         JLabel picaLabel = new JLabel(pica);
         JPanel imagePanel = new JPanel();
         imagePanel.add(picaLabel);
         frame.add(imagePanel, BorderLayout.CENTER);
-
         klientButton.addActionListener(e -> openClientFrame());
         picaButton.addActionListener(e -> openPizzaMaker());
+        cekuVesture.addActionListener(e -> read());
 
         frame.setVisible(true);
     }
-
+    private static void read() {
+    	try {
+    		FileReader fr = new FileReader("pasutijumi.txt");
+    		BufferedReader br = new BufferedReader(fr);
+    		String nolasitais="",teksts;
+    		while((teksts=br.readLine()) !=null) {
+    			nolasitais += teksts+"\n";
+    		}
+    		br.close();
+    		JOptionPane.showMessageDialog(null, nolasitais);
+    		}catch(IOException e) {
+    			
+    		}
+    }
     private static void openClientFrame() {
         if (Kframe == null) {
             Kframe = new JFrame("Pieņem klientu");
@@ -156,6 +178,7 @@ public class Pica {
             pizzaFrame.setSize(600, 400);
             pizzaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             pizzaFrame.setLayout(new FlowLayout());
+            pizzaFrame.getContentPane().setBackground(Color.YELLOW);
 
             JLabel pizzaOrderLabel = new JLabel("Klienta pasūtījums: " +
                     currentClient.getStyle() + " ar " +

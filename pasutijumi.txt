@@ -1,0 +1,10 @@
+Pasūtījums:
+Stils: Plānā
+Piedevas: Bekons
+Izmērs: 42 cm
+===========
+Pasūtījums:
+Stils: Biezā
+Piedevas: Sēnes
+Izmērs: 30 cm
+===========
