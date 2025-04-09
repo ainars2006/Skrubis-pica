@@ -1,7 +1,22 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class Pica {
     private static Random rand = new Random();
@@ -168,25 +183,41 @@ public class Pica {
 
             JButton makePizzaButton = new JButton("Taisīt picu");
             makePizzaButton.addActionListener(e -> {
-                String style = (String) styleComboBox.getSelectedItem();
-                String topping = (String) toppingComboBox.getSelectedItem();
-                int size = (Integer) sizeComboBox.getSelectedItem();
+            	  String style = (String) styleComboBox.getSelectedItem();
+            	    String topping = (String) toppingComboBox.getSelectedItem();
+            	    int size = (Integer) sizeComboBox.getSelectedItem();
 
-                currentClient = new Klients("Custom", style, topping, size);
-                JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
-                        style + " ar " + topping + ", Izmērs: " + size + " cm.");
-                if(style!=currentClient.getStyle() && topping!=currentClient.getToping()&&size!=currentClient.getSize())
-                	JOptionPane.showMessageDialog(null,"Tu uztaisiji nepareizu picu dēļ tā klients aizmuka/nolika klausui");
-                else
-                	JOptionPane.showMessageDialog(null,"Klients: Ummm paldies par picu");
-                isOrderComplete = true;
-                resetClient();
-                pizzaFrame.dispose();
-                frame.setVisible(true);
-                if (Kframe != null) {
-                    Kframe.setVisible(false);
-                }
-            });
+            	    currentClient = new Klients("Custom", style, topping, size);
+
+            	    try (PrintWriter writer = new PrintWriter(new FileWriter("pasutijumi.txt", true))) {
+            	        writer.println("Pasūtījums:");
+            	        writer.println("Stils: " + style);
+            	        writer.println("Piedevas: " + topping);
+            	        writer.println("Izmērs: " + size + " cm");
+            	        writer.println("===========");
+            	    } catch (IOException ex) {
+            	        ex.printStackTrace();
+            	    }
+
+            	    JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
+            	            style + " ar " + topping + ", Izmērs: " + size + " cm.");
+
+            	    if (!style.equals(currentClient.getStyle()) ||
+            	        !topping.equals(currentClient.getToping()) ||
+            	        size != currentClient.getSize()) {
+            	        JOptionPane.showMessageDialog(null, "Tu uztaisīji nepareizu picu dēļ tā klients aizmuka/nolika klausuli");
+            	    } else {
+            	        JOptionPane.showMessageDialog(null, "Klients: Ummm paldies par picu");
+            	    }
+
+            	    isOrderComplete = true;
+            	    resetClient();
+            	    pizzaFrame.dispose();
+            	    frame.setVisible(true);
+            	    if (Kframe != null) {
+            	        Kframe.setVisible(false);
+            	    }
+            	});
             pizzaFrame.add(makePizzaButton);
 
             pizzaFrame.setVisible(true);
