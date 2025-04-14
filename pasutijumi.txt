@@ -18,3 +18,36 @@ Stils: Plānā
 Piedevas: Bekons
 Izmērs: 30 cm
 ===========
+Pasūtījums:
+Stils: Biezā
+Piedevas: Bekons
+Izmērs: 42 cm
+===========
+Pasūtījums:
+Stils: Plānā
+Piedevas: Sēnes
+Izmērs: 42 cm
+===========
+Pasūtījums:
+Stils: Plānā
+Piedevas: Sīpoli
+Izmērs: 30 cm
+===========
+Pasūtījums:
+Stils: Plānā
+Piedevas: Pepperoni
+Izmērs: 20 cm
+Cena: 7.0 €
+===========
+Pasūtījums:
+Stils: Plānā
+Piedevas: Pepperoni
+Izmērs: 50 cm
+Cena: 11.0 €
+===========
+Pasūtījums:
+Stils: Biezā
+Piedevas: Bekons
+Izmērs: 50 cm
+Cena: 11.7 €
+===========

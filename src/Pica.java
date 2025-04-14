@@ -1,26 +1,8 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Random;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
 
 public class Pica {
     private static Random rand = new Random();
@@ -32,6 +14,20 @@ public class Pica {
         "atteli/persona2-removebg-preview.png",
         "atteli/persona3-removebg-preview.png"
     };
+
+    private static final Map<String, Double> priceMap = Map.ofEntries(
+        Map.entry("style:Biezā", 2.0),
+        Map.entry("style:Plānā", 1.5),
+        Map.entry("topping:Pepperoni", 1.5),
+        Map.entry("topping:Sēnes", 1.0),
+        Map.entry("topping:Sīpoli", 0.8),
+        Map.entry("topping:Bekons", 1.7),
+        Map.entry("topping:Olīvas", 1.2),
+        Map.entry("size:20", 4.0),
+        Map.entry("size:30", 5.5),
+        Map.entry("size:42", 7.0),
+        Map.entry("size:50", 8.0)
+    );
 
     private static Klients currentClient = null;
     private static boolean isOrderComplete = true;
@@ -61,20 +57,23 @@ public class Pica {
         buttonPanel.setBackground(Color.RED);
         frame.add(buttonPanel, BorderLayout.NORTH);
         frame.getContentPane().setBackground(Color.YELLOW);
+
         ImageIcon pica = new ImageIcon(new ImageIcon("atteli/a-cheesy-delicious-pizza-with-tasty-pepperoni-on-a-transparent-background-png.png")
-                .getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH));
+            .getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH));
         JLabel picaLabel = new JLabel(pica);
         JPanel imagePanel = new JPanel();
         imagePanel.add(picaLabel);
         frame.add(imagePanel, BorderLayout.CENTER);
+
         klientButton.addActionListener(e -> openClientFrame());
         picaButton.addActionListener(e -> openPizzaMaker());
         cekuVesture.addActionListener(e -> read());
 
         frame.setVisible(true);
     }
+
     private static void read() {
-    	try {
+        try {
             FileReader fr = new FileReader("pasutijumi.txt");
             BufferedReader br = new BufferedReader(fr);
             StringBuilder nolasitais = new StringBuilder();
@@ -98,6 +97,7 @@ public class Pica {
             JOptionPane.showMessageDialog(null, "Neizdevās nolasīt failu.");
         }
     }
+
     private static void openClientFrame() {
         if (Kframe == null) {
             Kframe = new JFrame("Pieņem klientu");
@@ -109,19 +109,19 @@ public class Pica {
             layeredPane.setBounds(0, 0, 600, 500);
 
             ImageIcon backgroundIcon = new ImageIcon(new ImageIcon("atteli/backPica.png")
-                    .getImage().getScaledInstance(600, 500, Image.SCALE_SMOOTH));
+                .getImage().getScaledInstance(600, 500, Image.SCALE_SMOOTH));
             JLabel backgroundLabel = new JLabel(backgroundIcon);
             backgroundLabel.setBounds(0, 0, 600, 500);
             layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
 
             ImageIcon tableIcon = new ImageIcon(new ImageIcon("atteli/empty-wooden-table-front-view-isolated-transparent-png.png")
-                    .getImage().getScaledInstance(650, 300, Image.SCALE_SMOOTH));
+                .getImage().getScaledInstance(650, 300, Image.SCALE_SMOOTH));
             JLabel tableLabel = new JLabel(tableIcon);
             tableLabel.setBounds(-50, 150, 700, 300);
             layeredPane.add(tableLabel, JLayeredPane.PALETTE_LAYER);
 
             ImageIcon phoneIcon = new ImageIcon(new ImageIcon("atteli/phone.png")
-                    .getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH));
+                .getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH));
             JLabel phoneLabel = new JLabel(phoneIcon);
             phoneLabel.setBounds(100, 180, 700, 300);
             layeredPane.add(phoneLabel, JLayeredPane.MODAL_LAYER);
@@ -150,7 +150,7 @@ public class Pica {
                         String topping = toppings[rand.nextInt(toppings.length)];
                         int size = sizes[rand.nextInt(sizes.length)];
                         currentClient = new Klients("Telefoniski", style, topping, size);
-                        orderDetails.setText("📞 Telefona zvans!\n" +
+                        orderDetails.setText("\uD83D\uDCDE Telefona zvans!\n" +
                                 "Klients pasūta:\n" +
                                 style + " ar " + topping + "\nIzmērs: " + size + " cm");
                         clientLabel.setIcon(null);
@@ -170,7 +170,7 @@ public class Pica {
                         ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
                                 .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
                         clientLabel.setIcon(clientIcon);
-                        orderDetails.setText("🧍 Klients ienāca un saka:\n" +
+                        orderDetails.setText("\uD83E\uDDD9 Klients ienāca un saka:\n" +
                                 style + " ar " + topping + "\nIzmērs: " + size + " cm");
                         isOrderComplete = false;
                     }
@@ -195,66 +195,96 @@ public class Pica {
             JLabel pizzaOrderLabel = new JLabel("Klienta pasūtījums: " +
                     currentClient.getStyle() + " ar " +
                     currentClient.getToping() + ", Izmērs: " +
-                    currentClient.getSize() + " cm\n");
+                    currentClient.getSize() + " cm");
             pizzaFrame.add(pizzaOrderLabel);
 
+            pizzaFrame.add(new JLabel("Izvēlieties stilu:"));
             JComboBox<String> styleComboBox = new JComboBox<>(styles);
             styleComboBox.setSelectedItem(currentClient.getStyle());
-            pizzaFrame.add(new JLabel("\nIzvēlieties stilu:"));
+            JLabel stylePriceLabel = new JLabel();
             pizzaFrame.add(styleComboBox);
+            pizzaFrame.add(stylePriceLabel);
 
+            pizzaFrame.add(new JLabel("Izvēlieties piedevas:"));
             JComboBox<String> toppingComboBox = new JComboBox<>(toppings);
             toppingComboBox.setSelectedItem(currentClient.getToping());
-            pizzaFrame.add(new JLabel("Izvēlieties piedevas:"));
+            JLabel toppingPriceLabel = new JLabel();
             pizzaFrame.add(toppingComboBox);
+            pizzaFrame.add(toppingPriceLabel);
 
-            JComboBox<Integer> sizeComboBox = new JComboBox<>();
-            for (int size : sizes) {
-                sizeComboBox.addItem(size);
-            }
-            sizeComboBox.setSelectedItem(currentClient.getSize());
             pizzaFrame.add(new JLabel("Izvēlieties izmēru:"));
+            JComboBox<Integer> sizeComboBox = new JComboBox<>();
+            for (int size : sizes) sizeComboBox.addItem(size);
+            sizeComboBox.setSelectedItem(currentClient.getSize());
+            JLabel sizePriceLabel = new JLabel();
             pizzaFrame.add(sizeComboBox);
+            pizzaFrame.add(sizePriceLabel);
+
+            JLabel totalPriceLabel = new JLabel("Kopējā cena: ");
+            totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            pizzaFrame.add(totalPriceLabel);
+
+            Runnable updatePrices = () -> {
+                String style = (String) styleComboBox.getSelectedItem();
+                String topping = (String) toppingComboBox.getSelectedItem();
+                int size = (Integer) sizeComboBox.getSelectedItem();
+
+                double stylePrice = priceMap.get("style:" + style);
+                double toppingPrice = priceMap.get("topping:" + topping);
+                double sizePrice = priceMap.get("size:" + size);
+                double total = stylePrice + toppingPrice + sizePrice;
+
+                stylePriceLabel.setText("Cena: " + stylePrice + " €");
+                toppingPriceLabel.setText("Cena: " + toppingPrice + " €");
+                sizePriceLabel.setText("Cena: " + sizePrice + " €");
+                totalPriceLabel.setText("Kopējā cena: " + total + " €");
+            };
+
+            styleComboBox.addActionListener(e -> updatePrices.run());
+            toppingComboBox.addActionListener(e -> updatePrices.run());
+            sizeComboBox.addActionListener(e -> updatePrices.run());
+            updatePrices.run();
 
             JButton makePizzaButton = new JButton("Taisīt picu");
             makePizzaButton.addActionListener(e -> {
-            	  String style = (String) styleComboBox.getSelectedItem();
-            	    String topping = (String) toppingComboBox.getSelectedItem();
-            	    int size = (Integer) sizeComboBox.getSelectedItem();
+                String style = (String) styleComboBox.getSelectedItem();
+                String topping = (String) toppingComboBox.getSelectedItem();
+                int size = (Integer) sizeComboBox.getSelectedItem();
 
-            	    currentClient = new Klients("Custom", style, topping, size);
+                if (!style.equals(currentClient.getStyle()) ||
+                    !topping.equals(currentClient.getToping()) ||
+                    size != currentClient.getSize()) {
+                    JOptionPane.showMessageDialog(null, "Tu uztaisīji nepareizu picu dēļ tā klients aizmuka/nolika klausuli");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Klients: Ummm paldies par picu");
+                }
 
-            	    try (PrintWriter writer = new PrintWriter(new FileWriter("pasutijumi.txt", true))) {
-            	        writer.println("Pasūtījums:");
-            	        writer.println("Stils: " + style);
-            	        writer.println("Piedevas: " + topping);
-            	        writer.println("Izmērs: " + size + " cm");
-            	        writer.println("===========");
-            	    } catch (IOException ex) {
-            	        ex.printStackTrace();
-            	    }
+                double price = priceMap.get("style:" + style)
+                              + priceMap.get("topping:" + topping)
+                              + priceMap.get("size:" + size);
 
-            	    JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
-            	            style + " ar " + topping + ", Izmērs: " + size + " cm.");
+                try (PrintWriter writer = new PrintWriter(new FileWriter("pasutijumi.txt", true))) {
+                    writer.println("Pasūtījums:");
+                    writer.println("Stils: " + style);
+                    writer.println("Piedevas: " + topping);
+                    writer.println("Izmērs: " + size + " cm");
+                    writer.println("Cena: " + price + " €");
+                    writer.println("===========");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
 
-            	    if (!style.equals(currentClient.getStyle()) ||
-            	        !topping.equals(currentClient.getToping()) ||
-            	        size != currentClient.getSize()) {
-            	        JOptionPane.showMessageDialog(null, "Tu uztaisīji nepareizu picu dēļ tā klients aizmuka/nolika klausuli");
-            	    } else {
-            	        JOptionPane.showMessageDialog(null, "Klients: Ummm paldies par picu");
-            	    }
+                JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
+                    style + " ar " + topping + ", Izmērs: " + size + " cm.\nCena: " + price + " €");
 
-            	    isOrderComplete = true;
-            	    resetClient();
-            	    pizzaFrame.dispose();
-            	    frame.setVisible(true);
-            	    if (Kframe != null) {
-            	        Kframe.setVisible(false);
-            	    }
-            	});
+                isOrderComplete = true;
+                resetClient();
+                pizzaFrame.dispose();
+                frame.setVisible(true);
+                if (Kframe != null) Kframe.setVisible(false);
+            });
+
             pizzaFrame.add(makePizzaButton);
-
             pizzaFrame.setVisible(true);
         }
     }
