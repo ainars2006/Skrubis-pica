@@ -1,6 +1,8 @@
 # Programma par picu
 ## Apraksts
-Programma ir par picas veikalu kur var saņemt klientus un iedot viņiem picu.
+Programma ir par picas veikalu kur var saņemt klientus un pārdot viņiem picu.<br>
+Klienti var izvēlēties nejauši izvēlēties pigādes veidu un pasūtījumu<br>
+Klientus var piņemt pa telefonu vai klātienē<br>
 ## Veicamo darbu saraksts
 - [x] Tiek pielietota klase<br>
 - [ ] Var izvēlēties picu no receptēm<br>
@@ -9,5 +11,7 @@ Programma ir par picas veikalu kur var saņemt klientus un iedot viņiem picu.
 - [x] Ir bildes<br>
 - [x] Sglabā un lasa failu
 - [ ] Ir skaņas
-- [x] Krāsains
-![picas bilde](https://media.istockphoto.com/id/901501348/vector/slice-of-melted-cheese-pepperoni-pizza.jpg?s=612x612&w=0&k=20&c=0cIsVfLHiabGD1NGDZEfE1hIBmD5DQuzNuLK8Owvyo8=)
+- [x] Krāsains<br>
+![picas bilde](https://github.com/user-attachments/assets/297faf95-4c79-4643-9e0d-ee6fa4f2c986)
+![picas bilde](https://github.com/user-attachments/assets/d90ac05d-c7eb-4e11-b52e-0457a0da0d04)
+![image](https://github.com/user-attachments/assets/3fd24f85-b1a3-407c-8a18-83f7fd4a1806)
