@@ -10,9 +10,9 @@ public class Pica {
     private static String[] toppings = {"Pepperoni", "Sēnes", "Sīpoli", "Bekons", "Olīvas"};
     private static int[] sizes = {30, 50, 20, 42};
     private static String[] klients = {
-        "atteli/persona1-removebg-preview.png",
-        "atteli/persona2-removebg-preview.png",
-        "atteli/persona3-removebg-preview.png"
+        "/atteli/persona1-removebg-preview.png",
+        "/atteli/persona2-removebg-preview.png",
+        "/atteli/persona3-removebg-preview.png"
     };
 
     private static final Map<String, Double> priceMap = Map.ofEntries(
@@ -58,7 +58,7 @@ public class Pica {
         frame.add(buttonPanel, BorderLayout.NORTH);
         frame.getContentPane().setBackground(Color.YELLOW);
 
-        ImageIcon pica = new ImageIcon(new ImageIcon("atteli/a-cheesy-delicious-pizza-with-tasty-pepperoni-on-a-transparent-background-png.png")
+        ImageIcon pica = new ImageIcon(new ImageIcon(Pica.class.getResource("/atteli/a-cheesy-delicious-pizza-with-tasty-pepperoni-on-a-transparent-background-png.png"))
             .getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH));
         JLabel picaLabel = new JLabel(pica);
         JPanel imagePanel = new JPanel();
@@ -108,19 +108,19 @@ public class Pica {
             JLayeredPane layeredPane = new JLayeredPane();
             layeredPane.setBounds(0, 0, 600, 500);
 
-            ImageIcon backgroundIcon = new ImageIcon(new ImageIcon("atteli/backPica.png")
+            ImageIcon backgroundIcon = new ImageIcon(new ImageIcon(Pica.class.getResource("/atteli/backPica.png"))
                 .getImage().getScaledInstance(600, 500, Image.SCALE_SMOOTH));
             JLabel backgroundLabel = new JLabel(backgroundIcon);
             backgroundLabel.setBounds(0, 0, 600, 500);
             layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
 
-            ImageIcon tableIcon = new ImageIcon(new ImageIcon("atteli/empty-wooden-table-front-view-isolated-transparent-png.png")
+            ImageIcon tableIcon = new ImageIcon(new ImageIcon(Pica.class.getResource("/atteli/empty-wooden-table-front-view-isolated-transparent-png.png"))
                 .getImage().getScaledInstance(650, 300, Image.SCALE_SMOOTH));
             JLabel tableLabel = new JLabel(tableIcon);
             tableLabel.setBounds(-50, 150, 700, 300);
             layeredPane.add(tableLabel, JLayeredPane.PALETTE_LAYER);
 
-            ImageIcon phoneIcon = new ImageIcon(new ImageIcon("atteli/phone.png")
+            ImageIcon phoneIcon = new ImageIcon(new ImageIcon(Pica.class.getResource("/atteli/phone.png"))
                 .getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH));
             JLabel phoneLabel = new JLabel(phoneIcon);
             phoneLabel.setBounds(100, 180, 700, 300);
@@ -149,13 +149,10 @@ public class Pica {
                         String style = styles[rand.nextInt(styles.length)];
                         String topping = toppings[rand.nextInt(toppings.length)];
                         int size = sizes[rand.nextInt(sizes.length)];
-
                         String[] deliveryOptions = {"Saņemt šeit", "Piegāde"};
                         String deliveryMethod = deliveryOptions[rand.nextInt(deliveryOptions.length)];
-
                         currentClient = new Klients("Telefoniski", style, topping, size, deliveryMethod);
-                        orderDetails.setText("\uD83D\uDCDE Telefona zvans!\n" +
-                                "Klients pasūta:\n" +
+                        orderDetails.setText("\uD83D\uDCDE Telefona zvans!\nKlients pasūta:\n" +
                                 style + " ar " + topping + "\nIzmērs: " + size + " cm\nPiegāde: " + deliveryMethod);
                         clientLabel.setIcon(null);
                         isOrderComplete = false;
@@ -169,13 +166,11 @@ public class Pica {
                         String style = styles[rand.nextInt(styles.length)];
                         String topping = toppings[rand.nextInt(toppings.length)];
                         int size = sizes[rand.nextInt(sizes.length)];
-
                         String[] deliveryOptions = {"Saņemt šeit", "Piegāde"};
                         String deliveryMethod = deliveryOptions[rand.nextInt(deliveryOptions.length)];
-
                         currentClient = new Klients("Ienāca veikalā", style, topping, size, deliveryMethod);
                         selectedClientImage = klients[rand.nextInt(klients.length)];
-                        ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
+                        ImageIcon clientIcon = new ImageIcon(new ImageIcon(Pica.class.getResource(selectedClientImage))
                                 .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
                         clientLabel.setIcon(clientIcon);
                         orderDetails.setText("\uD83E\uDDD9 Klients ienāca un saka:\n" +
@@ -236,12 +231,10 @@ public class Pica {
                 String style = (String) styleComboBox.getSelectedItem();
                 String topping = (String) toppingComboBox.getSelectedItem();
                 int size = (Integer) sizeComboBox.getSelectedItem();
-
                 double stylePrice = priceMap.get("style:" + style);
                 double toppingPrice = priceMap.get("topping:" + topping);
                 double sizePrice = priceMap.get("size:" + size);
                 double total = stylePrice + toppingPrice + sizePrice;
-
                 stylePriceLabel.setText("Cena: " + stylePrice + " €");
                 toppingPriceLabel.setText("Cena: " + toppingPrice + " €");
                 sizePriceLabel.setText("Cena: " + sizePrice + " €");
