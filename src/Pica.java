@@ -149,10 +149,14 @@ public class Pica {
                         String style = styles[rand.nextInt(styles.length)];
                         String topping = toppings[rand.nextInt(toppings.length)];
                         int size = sizes[rand.nextInt(sizes.length)];
-                        currentClient = new Klients("Telefoniski", style, topping, size);
+
+                        String[] deliveryOptions = {"Saņemt šeit", "Piegāde"};
+                        String deliveryMethod = deliveryOptions[rand.nextInt(deliveryOptions.length)];
+
+                        currentClient = new Klients("Telefoniski", style, topping, size, deliveryMethod);
                         orderDetails.setText("\uD83D\uDCDE Telefona zvans!\n" +
                                 "Klients pasūta:\n" +
-                                style + " ar " + topping + "\nIzmērs: " + size + " cm");
+                                style + " ar " + topping + "\nIzmērs: " + size + " cm\nPiegāde: " + deliveryMethod);
                         clientLabel.setIcon(null);
                         isOrderComplete = false;
                     }
@@ -165,13 +169,17 @@ public class Pica {
                         String style = styles[rand.nextInt(styles.length)];
                         String topping = toppings[rand.nextInt(toppings.length)];
                         int size = sizes[rand.nextInt(sizes.length)];
-                        currentClient = new Klients("Ienāca veikalā", style, topping, size);
+
+                        String[] deliveryOptions = {"Saņemt šeit", "Piegāde"};
+                        String deliveryMethod = deliveryOptions[rand.nextInt(deliveryOptions.length)];
+
+                        currentClient = new Klients("Ienāca veikalā", style, topping, size, deliveryMethod);
                         selectedClientImage = klients[rand.nextInt(klients.length)];
                         ImageIcon clientIcon = new ImageIcon(new ImageIcon(selectedClientImage)
                                 .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
                         clientLabel.setIcon(clientIcon);
                         orderDetails.setText("\uD83E\uDDD9 Klients ienāca un saka:\n" +
-                                style + " ar " + topping + "\nIzmērs: " + size + " cm");
+                                style + " ar " + topping + "\nIzmērs: " + size + " cm\nPiegāde: " + deliveryMethod);
                         isOrderComplete = false;
                     }
                 }
@@ -274,7 +282,7 @@ public class Pica {
                     ex.printStackTrace();
                 }
 
-                JOptionPane.showMessageDialog(pizzaFrame, "Jūsu picu ir pasūtīta: " +
+                JOptionPane.showMessageDialog(null, "Jūsu picu ir pasūtīta: " +
                     style + " ar " + topping + ", Izmērs: " + size + " cm.\nCena: " + price + " €");
 
                 isOrderComplete = true;
